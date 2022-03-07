@@ -1,23 +1,19 @@
-from pathlib import Path
+from ht_ml.constants import DATASET_DIR
 import os
 import random
 import json
 
 
 class Datasets:
-    def __init__(self, dataset_name) -> None:
-        self.dataset_name = dataset_name.strip().lower()
-        self.dataset_path = f"{str(Path(__file__).parent.parent.parent)}/data/{self.dataset_name}/datasets/default/"
-
-        if not os.path.exists(self.dataset_path):
-            raise FileNotFoundError(f"Dataset {self.dataset_name} not found")
 
     def read_dataset(self, n=None, suffle=False):
-        # get first n files from the dataset and return them as a list
+
         datasets = []
-        for roots, dir, files in os.walk(self.dataset_path):
+        max = None
+        for roots, dir, files in os.walk(DATASET_DIR):
             if n is None:
                 n = len(files) - 2  # -2 because of . and ..
+
             max = len(files) - 2
 
         processed = []
@@ -29,11 +25,13 @@ class Datasets:
                 processed.append(file_number)
             else:
                 file_number = i + 1  # +1 because filename starts with 1
-            file_number = str(file_number)
-            file_number = file_number.zfill(9)
 
-            with open(f"{self.dataset_path}/{file_number}.json", 'r') as f:
+            file_number = str(file_number)
+            file_name = f'{file_number.zfill(9)}.json'
+
+            with open(DATASET_DIR / file_name, 'r') as f:
                 str_obj = json.loads(f.read())
-                datasets.append(str_obj)
-            
+                if(str_obj['author'] != '' and str_obj['qoute'] != ''):
+                    datasets.append(str_obj)
+
         return datasets
