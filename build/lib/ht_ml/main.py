@@ -1,6 +1,6 @@
-from ht_ml.constants import HTML_DIR
-from ht_ml.core.datasets import Datasets
-from ht_ml.core.feature_engg import preprocess_html
+from constants import HTML_DIR
+from core.datasets import Datasets
+from core.feature_engg import preprocess_html
 from sklearn.feature_extraction.text import CountVectorizer
 import html_to_json
 import json
@@ -11,8 +11,8 @@ def main():
     # with open(HTML_DIR / 'zZxlyF5zJQff8Dn.html', 'r') as f:
     #     html_str = f.read()
     #     a = html_to_json.convert(html_str)
-    
-    # print("Its do or die situation now")
+
+    print("Its do or die situation now")
     d = Datasets()
     objs = d.read_dataset(n=5, suffle=True)
 
